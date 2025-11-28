@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muro Social Universitario</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-post {
+      animation: fadeIn 0.25s ease-out;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { scrollbar-width: none; }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+
+  <div class="flex justify-center min-h-screen">
+
+    <main class="w-full max-w-2xl border-x border-gray-200 dark:border-gray-700 min-h-screen">
+
+      <!-- ENCABEZADO -->
+      <header class="sticky top-0 z-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold">Muro Universitario</h1>
+
+        <!-- AVATAR + NOMBRE DEL USUARIO -->
+        <div class="flex items-center space-x-3">
+          <img id="avatarPreview" class="w-10 h-10 rounded-full">
+          <span id="loggedUserName" class="font-semibold"></span>
+        </div>
+        
+        <!-- BOTON CERRAR SESIÓN -->
+        <button id="logoutBtn" class="text-red-400 hover:text-red-200 font-semibold"> Cerrar sesión
+        </button>
+
+      </header>
+
+      <!-- FORMULARIO DE POST -->
+      <section class="p-4 border-b border-gray-200 dark:border-gray-700">
+        <form id="postForm" class="flex space-x-3">
+
+          <img id="avatarPreview2" class="w-12 h-12 rounded-full">
+
+          <textarea
+             id="content"
+             class="flex-1 bg-gray-100 dark:bg-gray-800 text-white p-3 rounded-lg outline-none resize-none"
+             rows="2"
+             placeholder="¿Qué estás pensando?"
+          ></textarea>
+
+          <button
+            type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+          >
+            Publicar
+          </button>
+        </form>
+      </section>
+
+      <!-- POSTS -->
+      <section id="postsList" class="divide-y divide-gray-200 dark:divide-gray-700"></section>
+
+    </main>
+
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="main.js"></script>
+
+</body>
+</html>
