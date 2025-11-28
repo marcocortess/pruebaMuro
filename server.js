@@ -1,6 +1,8 @@
 // server.js
+require('dotenv').config();
 const http = require('http');
 const express = require('express');
+const cors = require('cors');
 const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -15,19 +17,20 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = 'mongodb+srv://marquitoswslol_db_user:zZr5gsgTpzcX2Xo7@murouser.x9ag2xy.mongodb.net/?appName=MuroUser';
+const MONGO_URI = process.env.MONGO_URI;
 
 // ===== MongoDB =====
 mongoose.connect(MONGO_URI)
-  .then(() => console.log('MongoDB conectado.'))
+  .then(() => console.log('MongoDB conectado en:', MONGO_URI))
   .catch(err => console.error('Error al conectar MongoDB:', err));
 
 // ===== Middlewares =====
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const sessionMiddleware = session({
-  secret: 'supersecreto',
+  secret: process.env.SESSION_SECRET || 'supersecreto',
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: MONGO_URI }),
@@ -240,3 +243,4 @@ app.use(express.static('public'));
 server.listen(PORT, () => {
   console.log(`Servidor listo en http://localhost:${PORT}`);
 });
+
